@@ -8,31 +8,33 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardDeleteWithConfirm
     const currentUser = useContext(CurrentUserContext);
 
     return (
-        <main className="main">
-            <section className="profile">
-                <button className="profile__edit-image" type="button" onClick={onEditAvatar}>
-                    <img className="profile__image" src={currentUser.avatar} alt="Фото профиля" />
-                </button>
-                <div className="profile-info">
-                    <h1 className="profile-info__title">{currentUser.name}</h1>
-                    <button className="profile-info__edit-btn" type="button" onClick={onEditProfile}>
-                        <img className="profile-info__edit-icon" src={editPencil} alt="Иконка: edit" />
+        <>
+            <main className="main">
+                <section className="profile">
+                    <button className="profile__edit-image" type="button" onClick={onEditAvatar}>
+                        <img className="profile__image" src={currentUser.avatar} alt="Фото профиля" />
                     </button>
-                    <p className="profile-info__subtitle">{currentUser.about}</p>
-                </div>
-                <button className="profile__add-btn" type="button" onClick={onAddPlace}>
-                    <img className="profile__add-icon" src={addIcon} alt="Иконка: add" />
-                </button>
-            </section>
+                    <div className="profile-info">
+                        <h1 className="profile-info__title">{currentUser.name}</h1>
+                        <button className="profile-info__edit-btn" type="button" onClick={onEditProfile}>
+                            <img className="profile-info__edit-icon" src={editPencil} alt="Иконка: edit" />
+                        </button>
+                        <p className="profile-info__subtitle">{currentUser.about}</p>
+                    </div>
+                    <button className="profile__add-btn" type="button" onClick={onAddPlace}>
+                        <img className="profile__add-icon" src={addIcon} alt="Иконка: add" />
+                    </button>
+                </section>
 
-            <section className="cards">
-                <ul className="cards-container">
-                    {cards.map((card, i) => (
-                        <Card onCardDeleteWithConfirmation={onCardDeleteWithConfirmation} onCardClick={onCardClick} onCardLike={onCardLike} card={card} key={card._id} />
-                    ))}
-                </ul>
-            </section>
-        </main>
+                <section className="cards">
+                    <ul className="cards-container">
+                        {cards.map((card, i) => (
+                            <Card onCardDeleteWithConfirmation={onCardDeleteWithConfirmation} onCardClick={onCardClick} onCardLike={onCardLike} card={card} key={card._id} />
+                        ))}
+                    </ul>
+                </section>
+            </main>
+        </>
     );
 }
 

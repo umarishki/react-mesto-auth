@@ -1,20 +1,22 @@
-class Api {
+export class Api {
     constructor(options) {
         this._baseUrl = options.baseUrl;
-        this._authorization = options.headers.authorization;
-        this._contentType = options.headers['Content-Type'];
+        this._headers = options.headers;
+        // this._authorization = options.headers.authorization;
+        // this._contentType = options.headers['Content-Type'];
     }
 
     _request(methodApi, urlApi, dataObj) {
         return fetch(`${this._baseUrl}${urlApi}`, {
             method: methodApi,
-            headers: {
-                authorization: this._authorization,
-                'Content-Type': 'application/json'
-            },
+            headers: this._headers,
+            // {
+            //     authorization: this._authorization,
+            //     'Content-Type': 'application/json'
+            // },
             body: dataObj ? JSON.stringify(dataObj) : undefined
         })
-            .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+            .then(res => res.ok ? res.json() : Promise.reject(`Ошибка ${res.status}: ${res.statusText}`))
     }
 
     getInitialCards() {
@@ -89,6 +91,36 @@ class Api {
 
     changeLikeCardStatus(cardId, isLiked) {
         return isLiked ? this.deleteLike(cardId) : this.putLike(cardId);
+    }
+
+    postUser({ password, email }) {
+        return this._request(
+            'POST',
+            '/signup',
+            {
+                password: password,
+                email: email 
+            }
+        );
+    }
+
+    postUserAuth({ password, email }) {
+        return this._request(
+            'POST',
+            '/signin',
+            {
+                password: password,
+                email: email 
+            }
+        );
+    }
+
+    getUserCheck() {
+        return this._request(
+            'GET',
+            '/users/me',
+            undefined
+        );
     }
 }
 
