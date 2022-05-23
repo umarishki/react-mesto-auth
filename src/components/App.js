@@ -45,6 +45,16 @@ function App() {
     });
 
     useEffect(() => {
+        tokenCheck();
+    }, []);
+
+    useEffect(() => {
+        if (loggedIn) {
+            history.push("/");
+        }
+    }, [loggedIn]);
+
+    const tokenCheck = () => {
         const token = localStorage.getItem('token');
         if (token) {
             const apiAuthCheck = new Api({
@@ -68,21 +78,14 @@ function App() {
                 })
                 .catch((err) => console.log(err));
         }
-    }, []);
-
-    useEffect(() => {
-        if (loggedIn) {
-            history.push("/");
-        }
-    }, [loggedIn]);
+    }
 
     function handleLogin({ password, email }) {
         return apiAuth.postUserAuth({ password, email })
             .then((res) => {
                 if (res.token) {
                     localStorage.setItem('token', res.token);
-                    setLoggedIn(true);
-
+                    tokenCheck();
                     history.push('/');
                 }
             })
@@ -91,7 +94,7 @@ function App() {
     function handleRegister({ password, email }) {
         return apiAuth.postUser({ password, email })
             .then((res) => {
-                console.log({res})
+                console.log({ res })
                 if (res) {
                     setIsRegisterSuccessful(true);
                     handleInfoTooltipOpen();
