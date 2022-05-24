@@ -8,7 +8,6 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardDeleteWithConfirm
     const currentUser = useContext(CurrentUserContext);
 
     return (
-        <>
             <main className="main">
                 <section className="profile">
                     <button className="profile__edit-image" type="button" onClick={onEditAvatar}>
@@ -34,7 +33,6 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardDeleteWithConfirm
                     </ul>
                 </section>
             </main>
-        </>
     );
 }
 

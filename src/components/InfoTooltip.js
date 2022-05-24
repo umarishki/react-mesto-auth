@@ -5,19 +5,8 @@ import { useLocation } from 'react-router-dom';
 
 function InfoTooltip({ isSuccessful, title, isOpen, onClose }) {
 
-    // const currentRoute = useLocation();
-    // let title = '';
-
-    // if ((currentRoute.pathname === '/sign-up') && isSuccessful) {
-    //     title = "Вы успешно зарегистрировались!";
-    // } else if ((currentRoute.pathname === '/sign-in') && isSuccessful) {
-    //     title = "Вы успешно авторизовались!";
-    // } else {
-    //     title = "Что-то пошло не так! Попробуйте ещё раз.";
-    // }
-
     return (
-        <div className={`popup popup_type_info-tool-tip${isOpen ? ' popup_opened' : ''}`}>
+        <div className={`popup popup_type_info-tool-tip${isOpen && ' popup_opened'}`}>
         <div className="popup__container popup__container_type_info-tool-tip">
             <img className="popup__image-info" src={isSuccessful ? success : fail} alt={title} />
             <h2 className="popup__title popup__title_type_info-tool-tip">{title}</h2>
