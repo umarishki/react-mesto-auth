@@ -9,11 +9,7 @@ function Register({ handleRegister }) {
         if (!password || !email){
             return;
         }
-        handleRegister(formValues)
-        .then(() => {
-            setFormValues({ password: '', email: '' });
-        })
-        .catch((err) => console.log(err));;
+        handleRegister(formValues);
     };
 
     return (

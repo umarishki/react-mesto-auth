@@ -1,9 +1,20 @@
 import closeIcon from '../images/popup__close.svg';
 import success from '../images/success.svg';
 import fail from '../images/fail.svg';
+import { useLocation } from 'react-router-dom';
 
-function InfoTooltip({ isSuccessful, isOpen, onClose }) {
-    const title = isSuccessful ? "Вы успешно зарегистрировались!" : "Что-то пошло не так! Попробуйте ещё раз.";
+function InfoTooltip({ isSuccessful, title, isOpen, onClose }) {
+
+    // const currentRoute = useLocation();
+    // let title = '';
+
+    // if ((currentRoute.pathname === '/sign-up') && isSuccessful) {
+    //     title = "Вы успешно зарегистрировались!";
+    // } else if ((currentRoute.pathname === '/sign-in') && isSuccessful) {
+    //     title = "Вы успешно авторизовались!";
+    // } else {
+    //     title = "Что-то пошло не так! Попробуйте ещё раз.";
+    // }
 
     return (
         <div className={`popup popup_type_info-tool-tip${isOpen ? ' popup_opened' : ''}`}>

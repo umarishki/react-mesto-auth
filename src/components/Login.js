@@ -2,17 +2,13 @@ import Form from './Form';
 
 function Login({ handleLogin }) {
 
-    const handleSubmitForm = (e, formValues, setFormValues) => {
+    const handleSubmitForm = (e, formValues) => {
         e.preventDefault();
         const { password, email } = formValues;
         if (!password || !email){
             return;
         }
-        handleLogin(formValues)
-        .then(() => {
-            setFormValues({ password: '', email: '' });
-        })
-        .catch((err) => console.log(err));;
+        handleLogin(formValues);
     };
 
     return (

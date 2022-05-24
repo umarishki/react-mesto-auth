@@ -29,10 +29,12 @@ function App() {
     const [selectedCardToDelete, setSelectedCardToDelete] = useState(null);
     const [currentUser, setCurrentUser] = useState({});
     const [buttonTitle, setButtonTitle] = useState(initialButtonTitleValue);
+    const [message, setMessage] = useState('');
+
 
     const [isLoading, setIsLoading] = useState(true);
     const [loggedIn, setLoggedIn] = useState(false);
-    const [isRegisterSuccessful, setIsRegisterSuccessful] = useState(false);
+    const [isOperationSuccessful, setIsOperationSuccessful] = useState(false);
     const [userData, setUserData] = useState({});
 
     const history = useHistory();
@@ -173,8 +175,8 @@ function App() {
                 .then((res) => {
                     if (res) {
                         let userData = {
-                            id: res._id,
-                            email: res.email
+                            id: res.data._id,
+                            email: res.data.email
                         }
                         setUserData(userData);
                         setLoggedIn(true);
@@ -182,6 +184,9 @@ function App() {
                     }
                 })
                 .catch((err) => console.log(err));
+        }
+        else {
+            setIsLoading(false);
         }
     }
 
@@ -192,22 +197,31 @@ function App() {
                     localStorage.setItem('token', res.token);
                     setIsLoading(true)
                     tokenCheck();
-                    // history.push('/');
+                    setIsOperationSuccessful(true);
+                    setMessage('Вы успешно авторизовались!');
+                    handleInfoTooltipOpen();
                 }
             })
+            .catch(() => {
+                setIsOperationSuccessful(false);
+                setMessage('Что-то пошло не так! Попробуйте ещё раз.');
+                handleInfoTooltipOpen();
+            });;
     }
 
     const handleRegister = ({ password, email }) => {
         return auth.apiAuth.postUser({ password, email })
             .then((res) => {
                 if (res) {
-                    setIsRegisterSuccessful(true);
+                    setIsOperationSuccessful(true);
+                    setMessage('Вы успешно зарегистрировались!');
                     handleInfoTooltipOpen();
                     history.push('/sign-in');
                 }
             })
             .catch(() => {
-                setIsRegisterSuccessful(false);
+                setIsOperationSuccessful(false);
+                setMessage('Что-то пошло не так! Попробуйте ещё раз.');
                 handleInfoTooltipOpen();
             });;
     }
@@ -249,7 +263,7 @@ function App() {
                 </Route>
             </Switch>
             <Footer />
-            <InfoTooltip isSuccessful={isRegisterSuccessful} isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
+            <InfoTooltip isSuccessful={isOperationSuccessful} title={message} isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
             <EditProfilePopup
                 buttonTitle={buttonTitle}
                 onUpdateUser={handleUpdateUser}
