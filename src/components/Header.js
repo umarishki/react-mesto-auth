@@ -1,26 +1,27 @@
 import logoMesto from '../images/logo-mesto.svg';
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Link, Route, Switch } from 'react-router-dom';
 
-function Header({ loggedIn, email, currentRoute, handleLogOut }) {
-    const [linkInfo, setLinkInfo] = useState({link: '#', linkText: ''});
-
-    useEffect(() => {
-        if (currentRoute === '/sign-in') {
-            setLinkInfo({link: '/sign-up', linkText: 'Зарегистрироваться'});
-        } else if (currentRoute === '/sign-up') {
-            setLinkInfo({link: '/sign-in', linkText: 'Войти'});
-        } else {
-            setLinkInfo({link: '/', linkText: 'Выйти'});
-        }
-    }, []);
-
+function Header({ email, handleLogOut }) {
     return (
         <header className="header">
             <img className="header__image" src={logoMesto} alt="Лого: Mesto" />
             <div className="header__content">
-                {loggedIn && <p className="header__email">{email}</p>}
-                <Link className="header__link" to={linkInfo.link} onClick={linkInfo.link === '/' ? handleLogOut : null}>{linkInfo.linkText}</Link>
+                <Switch>
+                    <Route exact path="/sign-in">
+                        <Link to="/sign-up" className="header__link">
+                            Регистрация
+                        </Link>
+                    </Route>
+                    <Route exact path="/sign-up">
+                        <Link to="/sign-in" className="header__link">
+                            Войти
+                        </Link>
+                    </Route>
+                    <Route exact path="/">
+                        <p className="header__email">{email}</p>
+                        <Link to='/sign-in' className="header__link" onClick={handleLogOut}>Выйти</Link>
+                    </Route>
+                </Switch>
             </div>
         </header>
     );
